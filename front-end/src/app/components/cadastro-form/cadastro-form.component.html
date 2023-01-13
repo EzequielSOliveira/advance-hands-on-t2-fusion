@@ -1,0 +1,323 @@
+<!-- TODO: essa página possui IDs duplicados pois os campos tem o mesmo nome em mais de uma entidade (donot e institution), possível solução criar entidade para endereço. -->
+<div class="container my-3">
+    <div class="row">
+        <div class="col-6">
+            <div class="form">
+                <form (ngSubmit)="submit(form)" #form="ngForm">
+                    <h1>Cadastre-se</h1>
+                    <div class="">
+                        <div class="">
+                            <h6>Tipo de cadastro</h6>
+                        </div>
+                        <div class="gender-group">
+                            <optgroup></optgroup>
+                            <div class="form-check">
+
+                                <input id="flexRadioDefault1" class="form-check-input" type="radio"
+                                    name="flexRadioDefault" value="juridical" (click)="pessoa($event);">
+                                <label class="form-check-label font-weight-bold"
+                                    for="flexRadioDefault1">Instituição</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                    id="flexRadioDefault2" value="legal" (click)="pessoa($event);" checked>
+                                <label class="form-check-label font-weight-bold" for="flexRadioDefault2">Pessoa
+                                    Fisica</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="fisica" class="">
+                        <div class="form-group mb-3">
+                            <label for="fullName">Nome Completo</label>
+                            <input class="form-control" id="fullName" type="text" name="fullName"
+                                placeholder="Digite seu nome completo" [(ngModel)]="donor.fullName" #fullName="ngModel"
+                                required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <!-- name-->
+                            <div *ngIf="fullName.invalid" class="text-danger" role="alert">
+                                <span *ngIf="fullName.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="fullName.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="cpf">CPF</label>
+                            <input class="form-control" id="cpf" type="text" name="cpf" placeholder="Digite seu CPF"
+                                [(ngModel)]="donor.cpf" #cpf="ngModel" required pattern="^(?=.{0,100}$)[0-9]+$"
+                                mask="000.000.000-00">
+
+                            <div *ngIf="fullName.invalid" class="text-danger" role="alert">
+                                <span *ngIf="fullName.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="fullName.errors?.['pattern']">Digite um CPF válido</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">E-mail</label>
+                            <input class="form-control" id="email" type="email" name="email"
+                                placeholder="Digite seu e-mail" [(ngModel)]="donor.email" #email="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z0-9ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ\-.@!#$%&\'*+\/=?_^{|}~]+$">
+                            <div *ngIf="email.invalid" class="text-danger" role="alert">
+                                <span *ngIf="email.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="email.errors?.['pattern']">Digite um e-mail válido com no máximo 100
+                                    caracteres.</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="gender">Gênero</label>
+                            <select class="form-control" id="gender" [(ngModel)]="donor.gender" name="gender"
+                                #gender="ngModel" required>
+                                <option value="MASCULINO" selected>Masculino</option>
+                                <!-- TODO: opção selected não está funcionando. -->
+                                <option value="FEMININO">Feminino</option>
+                                <option value="OUTRO">Outro</option>
+                            </select>
+                            <div *ngIf="gender.invalid" class="text-danger" role="alert">
+                                <span *ngIf="gender.errors?.['required']">Preencha esse campo</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="birthDate">Data de Nascimento</label>
+                            <input class="form-control" id="birthDate" type="date" name="birthDate"
+                                placeholder="Digite sua data de nascimento" [(ngModel)]="donor.birthDate"
+                                #birthDate="ngModel" required>
+
+                            <div *ngIf="birthDate.invalid" class="text-danger" role="alert">
+                                <span *ngIf="birthDate.errors?.['required']">Preencha esse campo</span>
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="postalCode">CEP</label>
+                            <input class="form-control" id="postalCode" type="text" name="postalCode"
+                                placeholder="Digite o cep" [(ngModel)]="donor.postalCode" #postalCode="ngModel" required
+                                pattern="^(?=.{0,10}$)[0-9]+$" mask="00000-000">
+
+                            <div *ngIf="postalCode.invalid" class="text-danger" role="alert">
+                                <span *ngIf="postalCode.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="postalCode.errors?.['pattern']">Digite um Cep válido</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="country">País</label>
+                            <input class="form-control" id="country" type="text" name="country"
+                                placeholder="Digite o páis" [(ngModel)]="donor.country" #country="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="country.invalid" class="text-danger" role="alert">
+                                <span *ngIf="country.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="country.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="state">Estado</label>
+                            <input class="form-control" id="state" type="text" name="state" placeholder="Digite "
+                                [(ngModel)]="donor.state" #state="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="state.invalid" class="text-danger" role="alert">
+                                <span *ngIf="state.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="state.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="city">Cidade</label>
+                            <input class="form-control" id="city" type="text" name="city" placeholder="Digite a cidade"
+                                [(ngModel)]="donor.city" #city="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="city.invalid" class="text-danger" role="alert">
+                                <span *ngIf="city.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="city.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="district">Bairro</label>
+                            <input class="form-control" id="district" type="text" name="district"
+                                placeholder="Digite o bairro" [(ngModel)]="donor.district" #district="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="district.invalid" class="text-danger" role="alert">
+                                <span *ngIf="district.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="district.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="location">Endereço</label>
+                            <input class="form-control" id="location" type="text" name="location"
+                                placeholder="Digite a localidade" [(ngModel)]="donor.location" #location="ngModel"
+                                required
+                                pattern="^(?=.{0,100}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="location.invalid" class="text-danger" role="alert">
+                                <span *ngIf="location.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="location.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="number">Número</label>
+                            <input class="form-control" id="number" type="text" name="number"
+                                placeholder="Digite o número" [(ngModel)]="donor.number" #number="ngModel" required
+                                pattern="^(?=.{0,10}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="number.invalid" class="text-danger" role="alert">
+                                <span *ngIf="number.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="number.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ====================== INSTITUIÇÃO ================================= -->
+                    <div id="juridica" class="input-group" style="display:none">
+                        <!-- TODO: no formulario -->
+                        <div class="form-group mb-3">
+                            <label for="corporate_name">Razão Social</label>
+                            <input class="form-control" id="corporate_name" type="text" name="corporate_name"
+                                placeholder="Digite a razão social" [(ngModel)]="institution.corporate_name"
+                                #corporate_name="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="corporate_name.invalid" class="text-danger" role="alert">
+                                <span *ngIf="corporate_name.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="corporate_name.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="fantasy_name">Nome Fantasia</label>
+                            <input class="form-control" id="fantasy_name" type="text" name="fantasy_name"
+                                placeholder="Digite o nome fantasia" [(ngModel)]="institution.fantasy_name"
+                                #fantasy_name="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="fantasy_name.invalid" class="text-danger" role="alert">
+                                <span *ngIf="fantasy_name.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="fantasy_name.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="cnpj">CNPJ</label>
+                            <input class="form-control" id="cnpj" type="text" name="cnpj" placeholder="Digite o cnpj"
+                                [(ngModel)]="institution.cnpj" #cnpj="ngModel" required pattern="^(?=.{0,18}$)[0-9]+$"
+                                mask="00.000.000/0000-00">
+                            <div *ngIf="cnpj.invalid" class="text-danger" role="alert">
+                                <span *ngIf="cnpj.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="cnpj.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="desc_economic_activity">Descrição da Atividade Econômica</label>
+                            <input class="form-control" id="desc_economic_activity" type="text"
+                                name="desc_economic_activity" placeholder="Digite a descrição da atividade econômica"
+                                [(ngModel)]="institution.desc_economic_activity" #desc_economic_activity="ngModel"
+                                required
+                                pattern="^(?=.{0,450}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="desc_economic_activity.invalid" class="text-danger" role="alert">
+                                <span *ngIf="desc_economic_activity.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="desc_economic_activity.errors?.['pattern']">Digite somente caracteres
+                                    válidos com no máximo 450
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="opening_date">Data de Abertura</label>
+                            <input class="form-control" id="opening_date" type="date" name="opening_date"
+                                placeholder="Digite a data de abertura" [(ngModel)]="institution.opening_date"
+                                #opening_date="ngModel" required>
+
+                            <div *ngIf="opening_date.invalid" class="text-danger" role="alert">
+                                <span *ngIf="opening_date.errors?.['required']">Preencha esse campo</span>
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="postalCode">CEP</label>
+                            <input class="form-control" id="postalCode" type="text" name="postalCode"
+                                placeholder="Digite o cep" [(ngModel)]="institution.postalCode"#postalCode="ngModel" required
+                                pattern="^(?=.{0,10}$)[0-9]+$" mask="00000-000">
+
+                            <div *ngIf="postalCode.invalid" class="text-danger" role="alert">
+                                <span *ngIf="postalCode.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="postalCode.errors?.['pattern']">Digite um Cep válido</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="country">País</label>
+                            <input class="form-control" id="country" type="text" name="country"
+                                placeholder="Digite o páis" [(ngModel)]="institution.country" #country="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="country.invalid" class="text-danger" role="alert">
+                                <span *ngIf="country.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="country.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="state">Estado</label>
+                            <input class="form-control" id="state" type="text" name="state"
+                                placeholder="Digite o estado" [(ngModel)]="institution.state" #state="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="state.invalid" class="text-danger" role="alert">
+                                <span *ngIf="state.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="state.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="city">Cidade</label>
+                            <input class="form-control" id="city" type="text" name="city" placeholder="Digite a cidade"
+                                [(ngModel)]="institution.city" #city="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="city.invalid" class="text-danger" role="alert">
+                                <span *ngIf="city.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="city.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="district">Bairro</label>
+                            <input class="form-control" id="district" type="text" name="district"
+                                placeholder="Digite o bairro" [(ngModel)]="institution.district" #district="ngModel" required
+                                pattern="^(?=.{0,100}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="district.invalid" class="text-danger" role="alert">
+                                <span *ngIf="district.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="district.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="location">Endereço</label>
+                            <input class="form-control" id="location" type="text" name="location"
+                                placeholder="Digite a localidade" [(ngModel)]="institution.location" #location="ngModel"
+                                required
+                                pattern="^(?=.{0,100}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="location.invalid" class="text-danger" role="alert">
+                                <span *ngIf="location.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="location.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="number">Número</label>
+                            <input class="form-control" id="number" type="text" name="number"
+                                placeholder="Digite o número" [(ngModel)]="institution.number" #number="ngModel" required
+                                pattern="^(?=.{0,10}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                            <div *ngIf="number.invalid" class="text-danger" role="alert">
+                                <span *ngIf="number.errors?.['required']">Preencha esse campo</span>
+                                <span *ngIf="number.errors?.['pattern']">Digite somente letras com no máximo 100
+                                    caracteres</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="continue-button mt-2">
+                        <button class="btn btn-success" type="submit">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-image">
+                <img src="assets/images/undraw_New_Year_2023_pfnc.png" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+</div>

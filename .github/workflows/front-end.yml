@@ -1,0 +1,28 @@
+name: CD Front-end (Netlify)
+
+on:
+  workflow_dispatch:
+
+jobs:
+    
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Netlify
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Instalação de dependências
+        working-directory: front-end/
+        run: npm install
+      - name: build
+        working-directory: front-end/
+        run: npm run build --prod  
+      - name: Copia do arquivo netlify.toml
+        run: cp front-end/netlify.toml front-end/dist/doacao-app/
+      - name: Instalação do cliente Netlify
+        run: npm install -g netlify-cli
+      - name: Deploy
+        run: netlify deploy --auth=${{ secrets.NETLIFY_TOKEN }} --dir=front-end/dist/doacao-app --site=${{ secrets.NETLIFY_SITE_ID }} --prod

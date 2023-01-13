@@ -1,0 +1,141 @@
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-3">
+            <app-sidemenu></app-sidemenu>
+        </div>
+        <div class="col-md-9">
+            <form (ngSubmit)="submit(form)" #form="ngForm">
+
+                <h1 style="text-align: center;" class="mt-4">Cadastrar Campanha</h1>
+
+                <div class="form-group mt-3">
+                    <label for="title">Título</label> <!-- `^-=+?,.)!;(´¨~ -->
+                    <input class="form-control" id="title" type="text" name="title"
+                        placeholder="Digite o título da campanha" class="form-control" [(ngModel)]="registro.title"
+                        #title="ngModel" required
+                        pattern="^(?=.{0,100}$)[a-zA-Z0-9 ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ=+-º&#34;.,)(;?/\\]+$">
+                    <div *ngIf="title.invalid" class="text-danger" role="alert">
+                        <span *ngIf="title.errors?.['required']">Preencha esse campo</span>
+                        <span *ngIf="title.errors?.['pattern']">Digite um título sem caracteres especiais com no máximo
+                            100 caracteres</span>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="description">Descrição</label>
+                    <textarea id="description" type="text" name="description"
+                        placeholder="Digite a descrição da campanha" class="form-control" rows="5"
+                        [(ngModel)]="registro.description" #description="ngModel" required
+                        pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ=+-.,)(;?/\\]+$"></textarea>
+                    <div *ngIf="title.invalid" class="text-danger" role="alert">
+                        <span *ngIf="description.errors?.['required']">Preencha esse campo</span>
+                        <span *ngIf="description.errors?.['pattern']">Digite um título sem caracteres especiais com no máximo
+                            100 caracteres</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group mt-3">
+                    <label for="item_name">Nome do Item</label>
+                    <input id="item_name" type="text" name="item_name" class="form-control"
+                        [(ngModel)]="newItem.item_name" #item_name="ngModel" required
+                        pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ=+-.,)(;?/\\]+$">
+                    <div *ngIf="item_name.invalid" class="text-danger" role="alert">
+                        <span *ngIf="item_name.errors?.['required']">Preencha esse campo</span>
+                        <span *ngIf="item_name.errors?.['pattern']">Digite um letras sem caracteres especiais com no
+                            máximo
+                            100 caracteres</span>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="type">Grandezas</label>
+                    <br>
+                    <small class="text-muted">Selecione a unidade de medida</small>
+                    <select class="form-select" id="type" [(ngModel)]="newItem.type" name="type" #type="ngModel"
+                        required>
+                        <option value="UNIDADE">Unidade</option>
+                        <option value="GRAMA">Grama</option>
+                        <option value="QUILOGRAMA">Quilograma</option>
+                        <option value="TONELADA">Tonelada</option>
+                        <option value="BRL">Moeda Corrente (R$)</option>
+                    </select>
+                    <div *ngIf="type.invalid" class="text-danger" role="alert">
+                        <span *ngIf="type.errors?.['required']">Preencha esse campo</span>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="required_value">Quantidade Para Arrecadar</label>
+                    <input id="required_value" type="text" name="required_value" class="form-control"
+                        [(ngModel)]="newItem.required_value" #required_value="ngModel" required
+                        pattern="^(?=.{0,10}$)[0-9]+$">
+                    <div *ngIf="required_value.invalid" class="text-danger" role="alert">
+                        <span *ngIf="required_value.errors?.['required']">Preencha esse campo</span>
+                        <span *ngIf="required_value.errors?.['pattern']">Digite um letras sem caracteres especiais com
+                            no máximo
+                            100 caracteres</span>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="item_description">Descrição do Item</label>
+                    <textarea id="item_description" type="text" name="item_description" class="form-control"
+                        placeholder="Descreva as caracteristicas do item" rows="5"
+                        [(ngModel)]="newItem.item_description" #item_description="ngModel" required
+                        pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ=+-.&#34;,)(;?/\\]+$"></textarea>
+                        <div *ngIf="item_description.invalid" class="text-danger" role="alert">
+                            <span *ngIf="item_description.errors?.['required']">Preencha esse campo</span>
+                            <span *ngIf="item_description.errors?.['pattern']">Digite um letras sem caracteres especiais com
+                                no máximo
+                                100 caracteres</span>
+                        </div>
+                </div>
+                <hr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Grandeza</th>
+                            <th scope="col">Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="item.length > 0; else elseTemplateEmpty">
+                            <tr *ngFor="let nItem of item; index as i;">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{nItem?.item_name}}</td>
+                                <td>{{nItem?.required_value}}</td>
+                                <td>{{nItem?.type}}</td>
+                                <td (click)="removeItem(i)"><i class="bi bi-x"></i></td>
+                            </tr>
+                        </ng-container>
+                        <ng-template #elseTemplateEmpty>
+                            <tr>
+                                <th colspan="5">Nenhum item cadastrado</th>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+                <!-- <ul class="list-group">
+                    <li class="list-group-item active d-flex justify-content-between align-items-center">
+                        <span>Item</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>(14) Cras justo odio</span>
+                        <i class="bi bi-x"></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Dapibus ac facilisis in
+                        <span class="badge badge-primary badge-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Morbi leo risus
+                        <span class="badge badge-primary badge-pill">1</span>
+                    </li>
+                </ul> -->
+                <hr>
+                <button type="button" class="btn btn-primary mt-3 mx-2 mb-5" (click)="addItem()">Adicionar Item</button>
+                <button type="submit" class="btn btn-success mt-3 mb-5">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>

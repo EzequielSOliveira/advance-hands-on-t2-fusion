@@ -1,0 +1,38 @@
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-3">
+            <app-sidemenu></app-sidemenu>
+        </div>
+        <div class="col-md-9">
+            <h1>Cadastro de Administrador</h1>
+            <form (ngSubmit)="submit(form)" #form="ngForm">
+                <div class="form-group mb-3">
+                    <label for="fullName">Nome Completo</label>
+                    <input type="text" class="form-control" name="fullName" id="fullName"
+                        [(ngModel)]="registro.fullName" #fullName="ngModel" required pattern="^(?=.{0,100}$)[a-zA-Z ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ`^´¨~]+$">
+                    <div *ngIf="fullName.invalid" class="text-danger" role="alert">
+                        <span *ngIf="fullName.errors?.['required']">Preencha esse campo</span>
+                        <span *ngIf="fullName.errors?.['pattern']">Digite somente letras com no máximo 100 caracteres</span>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" [(ngModel)]="registro.email" #email="ngModel" required pattern="^(?=.{0,100}$)[a-zA-Z0-9ÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäçèéêëìíîïñòóôõöùúûüýÿ\-.@!#$%&\'*+\/=?_^{|}~]+$">
+                    <div *ngIf="email.invalid" class="text-danger" role="alert">
+                        <span *ngIf="email.errors?.['required']">Preencha esse campo</span>
+                        <span *ngIf="email.errors?.['pattern']">Digite um e-mail válido com no máximo 100 caracteres.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!-- TODO: fazer disabled inline! -->
+                    <ng-container *ngIf="form.valid; else elseTemplateInvalid">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </ng-container>
+                    <ng-template #elseTemplateInvalid>
+                        <button type="submit" class="btn btn-primary" disabled>Cadastrar</button>
+                    </ng-template>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
